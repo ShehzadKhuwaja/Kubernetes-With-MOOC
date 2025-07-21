@@ -2,6 +2,6 @@
 
 ## Exercises
 
-### Chapter 1
+### Chapter 2
 
 -[1.1.] (https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/main/1.1)
