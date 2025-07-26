@@ -1,14 +1,19 @@
 kubectl cluster-info
 kubectl config current-context
+kubectl config get-contexts
+kubectl config use-context <context-name>
 k3d cluster list
 k3d cluster create express-cluster
 kubectl create deployment hashgenerator-dep --image=jakousa/dwk-app1
 kubectl get deployments
 kubectl get pods
 kubectl logs -f express-todo-app-dep-6f8858c7fb-nn7q2
+kubectl scale deployment/hashgenerator-dep --replicas=4
+kubectl set image deployment/hashgenerator-dep dwk-app1=jakousa/dwk-
+kubectl delete deployment hashgenerator-dep
+kubectl apply -f manifests/deployment.yaml
+kubectl delete -f manifests/deployment.yaml
 
 -- To push your docker image to docker hub --
 docker tag express-server:local yourusername/express-server:latest
 docker push shehzadkhuwaja/express-server:latest
-
-kubectl create deployment express-todo-app-dep --image=
