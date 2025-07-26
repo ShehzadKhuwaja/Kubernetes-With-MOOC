@@ -13,6 +13,11 @@ kubectl set image deployment/hashgenerator-dep dwk-app1=jakousa/dwk-
 kubectl delete deployment hashgenerator-dep
 kubectl apply -f manifests/deployment.yaml
 kubectl delete -f manifests/deployment.yaml
+kubectl describe deployment hashgenerator-dep
+kubectl config view --minify --raw
+kubectl get events
+kubectl port-forward hashresponse-dep-57bcc888d7-dj5vk 3003:3000
+
 
 -- To push your docker image to docker hub --
 docker tag express-server:local yourusername/express-server:latest
