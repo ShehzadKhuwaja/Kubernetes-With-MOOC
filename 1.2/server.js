@@ -5,9 +5,19 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-  res.send('Hello from Express server!');
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Hello</title>
+      </head>
+      <body>
+        <h1>Hello World</h1>
+      </body>
+    </html>
+  `);
 });
 
 app.listen(PORT, () => {
-  console.log(`Server started in port ${PORT}`);
+  console.log(`Server started on port ${PORT}`);
 });
