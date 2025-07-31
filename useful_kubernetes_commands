@@ -17,6 +17,13 @@ kubectl describe deployment hashgenerator-dep
 kubectl config view --minify --raw
 kubectl get events
 kubectl port-forward hashresponse-dep-57bcc888d7-dj5vk 3003:3000
+kubectl apply -f manifests/service.yaml
+k3d cluster create --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2
+
+-- Debugging commands --
+kubectl get pods -o wide           
+kubectl describe svc todo-app-svc
+kubectl logs <pod-name>            
 
 
 -- To push your docker image to docker hub --
