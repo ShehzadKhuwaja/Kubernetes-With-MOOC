@@ -15,3 +15,5 @@ spec:
       containers:
         - name: todo-app
           image: shehzadkhuwaja/express-server
+          ports:
+            - containerPort: 3000
