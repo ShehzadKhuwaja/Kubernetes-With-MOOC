@@ -1,19 +1,23 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Pod
 metadata:
   name: log-output-dep
+  labels:
+    app: log-output
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: log-output
-  template:
-    metadata:
-      labels:
-        app: log-output
-    spec:
-      containers:
-        - name: log-output
-          image: shehzadkhuwaja/log-output:latest
-          ports:
-            - containerPort: 3000
+  volumes:
+    - name: shared-logs
+      emptyDir: {}
+  containers:
+    - name: log-writer
+      image: shehzadkhuwaja/string-generator:latest
+      volumeMounts:
+        - name: shared-logs
+          mountPath: /shared
+    - name: log-reader
+      image: shehzadkhuwaja/string-reader:latest
+      ports:
+        - containerPort: 3000
+      volumeMounts:
+        - name: shared-logs
+          mountPath: /shared
