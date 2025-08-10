@@ -14,4 +14,4 @@
 -[1.8.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/1.8/1.2)  
 -[1.9.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/1.9/ping-pong)  
 -[1.10.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/1.10/1.1)  
--[1.11.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/1.10/ping-pong-with-log-output)
+-[1.11.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/1.11/ping-pong-with-log-output)
