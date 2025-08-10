@@ -12,8 +12,15 @@ spec:
       labels:
         app: ping-pong
     spec:
+      volumes:
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: image-claim
       containers:
         - name: ping-pong
           image: shehzadkhuwaja/ping-pong:latest
           ports:
             - containerPort: 3000
+          volumeMounts:
+          - name: shared-image
+            mountPath: /data

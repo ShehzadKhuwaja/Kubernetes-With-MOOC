@@ -25,7 +25,9 @@ k3d cluster create --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2
 -- Debugging commands --
 kubectl get pods -o wide           
 kubectl describe svc todo-app-svc
-kubectl logs <pod-name>            
+kubectl logs <pod-name>
+kubectl get pvc
+kubectl describe pvc shared-pvc            
 
 
 -- To push your docker image to docker hub --

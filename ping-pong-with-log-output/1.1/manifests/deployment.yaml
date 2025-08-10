@@ -8,6 +8,9 @@ spec:
   volumes:
     - name: shared-logs
       emptyDir: {}
+    - name: shared-image
+      persistentVolumeClaim:
+        claimName: image-claim
   containers:
     - name: log-writer
       image: shehzadkhuwaja/string-generator:latest
@@ -21,3 +24,5 @@ spec:
       volumeMounts:
         - name: shared-logs
           mountPath: /shared
+        - name: shared-image
+          mountPath: /ping-pong-data
