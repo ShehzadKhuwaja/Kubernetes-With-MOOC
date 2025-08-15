@@ -1,0 +1,16 @@
+{
+  "name": "todoapp-backend",
+  "version": "1.0.0",
+  "description": "todo app backend",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Shehzad Khuwaja",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2"
+  }
+}

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      volumes:
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: image-claim
+      containers:
+        - name: backend
+          image: shehzadkhuwaja/todoapp:latest
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: shared-image
+              mountPath: /shared

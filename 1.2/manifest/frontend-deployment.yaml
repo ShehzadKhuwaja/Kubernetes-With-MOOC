@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todo-app-dep
+  name: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: todo-app
+      app: frontend
   template:
     metadata:
       labels:
-        app: todo-app
+        app: frontend
     spec:
       containers:
-        - name: todo-app
-          image: shehzadkhuwaja/express-server
+        - name: frontend
+          image: shehzadkhuwaja/todoappfrontend:latest
           ports:
             - containerPort: 3000
