@@ -27,7 +27,9 @@ kubectl get pods -o wide
 kubectl describe svc todo-app-svc
 kubectl logs <pod-name>
 kubectl get pvc
-kubectl describe pvc shared-pvc            
+kubectl describe pvc shared-pvc
+kubectl logs backend-76b9697f85-n8tpr
+kubectl run backend-debug --rm -it --image=shehzadkhuwaja/todoapp:latest -- sh
 
 
 -- To push your docker image to docker hub --
