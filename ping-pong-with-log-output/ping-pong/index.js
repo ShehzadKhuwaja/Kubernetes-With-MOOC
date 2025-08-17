@@ -29,6 +29,13 @@ app.get('/pingpong', (req, res) => {
   }
 });
 
+app.get('/pings', (req, res) => {
+    if (fs.existsSync(counterFile)) {
+      pingPongs = parseInt(fs.readFileSync(counterFile, 'utf8'), 10) || 0;
+      res.json({ count: pingPongs });
+    }
+});
+
 app.listen(port, () => {
   console.log(`Ping-pong app listening at http://localhost:${port}`);
 });

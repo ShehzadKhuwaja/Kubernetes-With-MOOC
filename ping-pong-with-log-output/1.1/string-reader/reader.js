@@ -1,15 +1,19 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const fetch = require('node-fetch'); // install with npm i node-fetch
 
 const app = express();
 const port = 3000;
 
 // Paths in the shared volume
 const logFile = path.join('/shared', 'log.txt');
-const counterFile = path.join('/ping-pong-data', 'count.txt');
 
-app.get('/', (req, res) => {
+// URL of Ping Pong app inside the cluster
+// (pingpong is the service name, 2345 is the service port)
+const pingpongURL = 'http://ping-pong-svc:2345/pings';
+
+app.get('/', async (req, res) => {
   try {
     let latestLog = "No logs yet!";
     let pingPongs = 0;
@@ -20,19 +24,27 @@ app.get('/', (req, res) => {
       latestLog = logs[logs.length - 1]; // last line
     }
 
-    // Get ping-pong count
-    if (fs.existsSync(counterFile)) {
-      pingPongs = parseInt(fs.readFileSync(counterFile, 'utf8'), 10) || 0;
+    // Get ping-pong count via HTTP instead of file
+    try {
+      const response = await fetch(pingpongURL);
+      if (response.ok) {
+        const data = await response.json();
+        pingPongs = data.count || 0;
+      } else {
+        console.error('Failed to fetch pong count:', response.statusText);
+      }
+    } catch (err) {
+      console.error('Error fetching pong count:', err.message);
     }
 
     const output = `${latestLog}.\nPing / Pongs: ${pingPongs}`;
     res.type('text/plain').send(output);
   } catch (err) {
-    console.error('Error reading shared files:', err);
+    console.error('Error reading logs:', err);
     res.status(500).send('Internal Server Error');
   }
 });
 
 app.listen(port, () => {
-  console.log(`Reader listening on port ${port}`);
+  console.log(`Log Output app listening on port ${port}`);
 });
