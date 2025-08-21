@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-todos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-todos
+  template:
+    metadata:
+      labels:
+        app: backend-todos
+    spec:
+      containers:
+        - name: backend-todos
+          image: shehzadkhuwaja/backend-todos:latest
+          ports:
+            - containerPort: 3001

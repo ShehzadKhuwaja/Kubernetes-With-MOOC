@@ -6,6 +6,13 @@ spec:
   rules:
   - http:
       paths:
+      - path: /api/todos
+        pathType: Prefix
+        backend:
+          service:
+            name: backend-todos
+            port:
+              number: 2345
       - path: /api
         pathType: Prefix
         backend:

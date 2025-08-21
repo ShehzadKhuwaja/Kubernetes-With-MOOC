@@ -2,21 +2,41 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [image, setImage] = useState("");
-  const [todos, setTodos] = useState([
-    "Finish Kubernetes exercise",
-    "Review Node.js backend",
-    "Plan DevOps roadmap",
-  ]);
+  const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
 
+  // Load image and todos from backend
   useEffect(() => {
     setImage("/api/image"); // Kubernetes ingress will route /api to backend
+
+    // Fetch todos from backend
+    fetch("/api/todos")
+      .then((res) => res.json())
+      .then((data) => setTodos(data))
+      .catch((err) => console.error("Error fetching todos:", err));
   }, []);
 
-  const handleAddTodo = () => {
+  const handleAddTodo = async () => {
     if (newTodo.trim() === "" || newTodo.length > 140) return;
-    setTodos([...todos, newTodo]);
-    setNewTodo("");
+
+    try {
+      const response = await fetch("/api/todos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: newTodo }),
+      });
+
+      if (!response.ok) {
+        console.error("Failed to add todo");
+        return;
+      }
+
+      const savedTodo = await response.json();
+      setTodos([...todos, savedTodo]);
+      setNewTodo("");
+    } catch (err) {
+      console.error("Error adding todo:", err);
+    }
   };
 
   return (
@@ -58,9 +78,9 @@ function App() {
         </div>
 
         <ul style={{ listStyle: "none", padding: 0, marginTop: "1rem" }}>
-          {todos.map((todo, index) => (
+          {todos.map((todo) => (
             <li
-              key={index}
+              key={todo.id}
               style={{
                 background: "#1c1818ff",
                 margin: "6px auto",
@@ -69,7 +89,7 @@ function App() {
                 borderRadius: "4px",
               }}
             >
-              {todo}
+              {todo.text}
             </li>
           ))}
         </ul>
