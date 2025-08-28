@@ -22,6 +22,7 @@ k3d cluster create --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2
 kubectl get pods -n kube-system
 kubectl get svc -A
 kubectl config set-context --current --namespace=<name>
+kubectl delete all --all -n namespace
 
 Kubectx -- for context switching
 kubens -- for switching namespaces
