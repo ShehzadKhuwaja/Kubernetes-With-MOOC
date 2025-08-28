@@ -4,6 +4,7 @@ metadata:
   name: log-output-dep
   labels:
     app: log-output
+  namespace: exercises
 spec:
   volumes:
     - name: shared-logs
