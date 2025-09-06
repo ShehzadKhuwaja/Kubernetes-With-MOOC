@@ -8,6 +8,8 @@ const port = 3000;
 
 // Paths in the shared volume
 const logFile = path.join('/shared', 'log.txt');
+const fileContent = path.join('/config', 'information.txt')
+const envVariable = process.env.MESSAGE || "MESSAGE not set";
 
 // URL of Ping Pong app inside the cluster
 // (pingpong is the service name, 2345 is the service port)
@@ -37,7 +39,11 @@ app.get('/', async (req, res) => {
       console.error('Error fetching pong count:', err.message);
     }
 
-    const output = `${latestLog}.\nPing / Pongs: ${pingPongs}`;
+    const output = `file content: ${fileContent}
+    env variable: MESSAGE=${envVariable}
+    ${latestLog}.
+    Ping / Pongs: ${pingPongs}`;
+
     res.type('text/plain').send(output);
   } catch (err) {
     console.error('Error reading logs:', err);

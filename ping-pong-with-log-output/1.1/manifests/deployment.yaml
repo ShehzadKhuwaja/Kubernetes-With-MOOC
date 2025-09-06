@@ -12,6 +12,12 @@ spec:
     - name: shared-image
       persistentVolumeClaim:
         claimName: image-claim
+    - name: config
+      configMap:
+        name: log-output-config-map
+        items:
+          - key: "information.txt"
+            path: "information.txt"
   containers:
     - name: log-writer
       image: shehzadkhuwaja/string-generator:latest
@@ -20,6 +26,12 @@ spec:
           mountPath: /shared
     - name: log-reader
       image: shehzadkhuwaja/string-reader:latest
+      env:
+      - name: MESSAGE
+        valueFrom:
+          configMapKeyRef:
+            name: log-output-config-map
+            key: MESSAGE
       ports:
         - containerPort: 3000
       volumeMounts:
@@ -27,3 +39,6 @@ spec:
           mountPath: /shared
         - name: shared-image
           mountPath: /ping-pong-data
+        - name: config
+          mountPath: "/config"
+          readOnly: true
