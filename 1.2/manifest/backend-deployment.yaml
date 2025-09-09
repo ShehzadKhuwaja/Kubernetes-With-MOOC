@@ -20,8 +20,32 @@ spec:
       containers:
         - name: backend
           image: shehzadkhuwaja/todoapp:latest
-          ports:
-            - containerPort: 3000
+          env:
+          - name: IMAGE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: backend-config
+                key: IMAGE_URL
+          - name: IMAGE_EXPIRY_MINUTES
+            valueFrom:
+              configMapKeyRef:
+                name: backend-config
+                key: IMAGE_EXPIRY_MINUTES
+          - name: IMAGE_FILE
+            valueFrom:
+              configMapKeyRef:
+                name: backend-config
+                key: IMAGE_FILE
+          - name: META_FILE
+            valueFrom:
+              configMapKeyRef:
+                name: backend-config
+                key: META_FILE
+          - name: PORT
+            valueFrom:
+              configMapKeyRef:
+                name: backend-config
+                key: PORT
           volumeMounts:
             - name: shared-image
               mountPath: /shared

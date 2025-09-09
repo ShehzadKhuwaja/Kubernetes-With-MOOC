@@ -2,21 +2,26 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-const PORT = 3001;
+
+// ✅ Read from environment variables (with fallbacks)
+const PORT = process.env.PORT || 3001;
+const ALLOWED_ORIGIN = process.env.CORS_ORIGIN || "*";
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ALLOWED_ORIGIN
+}));
 app.use(express.json());
 
 // In-memory storage
 let todos = [];
 
-// GET /todos → fetch all todos
+// GET /api/todos → fetch all todos
 app.get("/api/todos", (req, res) => {
   res.json(todos);
 });
 
-// POST /todos → create a new todo
+// POST /api/todos → create a new todo
 app.post("/api/todos", (req, res) => {
   const { text } = req.body;
 
@@ -37,4 +42,5 @@ app.post("/api/todos", (req, res) => {
 // Start server
 app.listen(PORT, () => {
   console.log(`✅ todo-backend running on http://localhost:${PORT}`);
+  console.log(`CORS allowed origin: ${ALLOWED_ORIGIN}`);
 });

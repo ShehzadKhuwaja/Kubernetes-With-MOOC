@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+data:
+  # property-like keys; each key maps to a simple value
+  config.js: |
+    window._env_ = {
+      REACT_APP_TITLE: "The Project App",
+      REACT_APP_BACKEND_API: "/api",
+      REACT_APP_MAX_TODO_LENGTH: "140"
+    };   

@@ -18,3 +18,11 @@ spec:
           image: shehzadkhuwaja/todoappfrontend:latest
           ports:
             - containerPort: 3000
+          volumeMounts:
+            - name: frontend-config-volume
+              mountPath: /app/dist/config.js
+              subPath: config.js
+      volumes:
+        - name: frontend-config-volume
+          configMap:
+            name: frontend-config

@@ -5,22 +5,26 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
 
+  // Runtime configs from ConfigMap (injected into window._env_)
+  const backendApi = window._env_.REACT_APP_BACKEND_API;
+  const appTitle = window._env_.REACT_APP_TITLE || "Default App Title";
+  const maxTodoLength = parseInt(window._env_.REACT_APP_MAX_TODO_LENGTH || "140");
+
   // Load image and todos from backend
   useEffect(() => {
-    setImage("/api/image"); // Kubernetes ingress will route /api to backend
+    setImage(`${backendApi}/image`);
 
-    // Fetch todos from backend
-    fetch("/api/todos")
+    fetch(`${backendApi}/todos`)
       .then((res) => res.json())
       .then((data) => setTodos(data))
       .catch((err) => console.error("Error fetching todos:", err));
-  }, []);
+  }, [backendApi]);
 
   const handleAddTodo = async () => {
-    if (newTodo.trim() === "" || newTodo.length > 140) return;
+    if (newTodo.trim() === "" || newTodo.length > maxTodoLength) return;
 
     try {
-      const response = await fetch("/api/todos", {
+      const response = await fetch(`${backendApi}/todos`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: newTodo }),
@@ -41,7 +45,7 @@ function App() {
 
   return (
     <div style={{ textAlign: "center", margin: "2rem" }}>
-      <h1>The Project App</h1>
+      <h1>{appTitle}</h1>
 
       {image && (
         <img
@@ -59,7 +63,7 @@ function App() {
           <input
             type="text"
             value={newTodo}
-            placeholder="Enter a todo (max 140 chars)"
+            placeholder={`Enter a todo (max ${maxTodoLength} chars)`}
             onChange={(e) => setNewTodo(e.target.value)}
             style={{ padding: "8px", width: "250px", marginRight: "8px" }}
           />

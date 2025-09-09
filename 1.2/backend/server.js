@@ -3,9 +3,12 @@ import fs from "fs";
 import fetch from "node-fetch";
 
 const app = express();
-const PORT = 3000;
-const IMAGE_FILE = "/shared/image.jpg";
-const META_FILE = "/shared/meta.json";
+const IMAGE_URL = process.env.IMAGE_URL || "https://picsum.photos/1200";
+const IMAGE_FILE = process.env.IMAGE_FILE || "/shared/image.jpg";
+const META_FILE = process.env.META_FILE || "/shared/meta.json";
+const PORT = process.env.PORT || 3000;
+const IMAGE_EXPIRY_MINUTES = parseInt(process.env.IMAGE_EXPIRY_MINUTES || "10", 10);
+
 
 function loadMeta() {
   try {
@@ -20,7 +23,7 @@ function saveMeta(meta) {
 }
 
 async function fetchNewImage() {
-  const res = await fetch("https://picsum.photos/1200");
+  const res = await fetch(`${IMAGE_URL}`);
   const buffer = await res.buffer();
   fs.writeFileSync(IMAGE_FILE, buffer);
   saveMeta({ timestamp: Date.now(), servedAfterExpiry: false });
@@ -34,7 +37,7 @@ app.get("/api/image", async (req, res) => {
 
     if (!fs.existsSync(IMAGE_FILE)) {
       await fetchNewImage();
-    } else if (ageMinutes > 10) {
+    } else if (ageMinutes > IMAGE_EXPIRY_MINUTES) {
       if (!meta.servedAfterExpiry) {
         meta.servedAfterExpiry = true;
         saveMeta(meta);
