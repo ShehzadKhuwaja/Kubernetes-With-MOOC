@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ping-pong-dep
+  namespace: exercises   # ✅ moved here
 spec:
   replicas: 1
   selector:
@@ -11,7 +12,6 @@ spec:
     metadata:
       labels:
         app: ping-pong
-      namespace: exercises
     spec:
       volumes:
         - name: shared-image
@@ -20,8 +20,15 @@ spec:
       containers:
         - name: ping-pong
           image: shehzadkhuwaja/ping-pong:latest
-          ports:
-            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: pingpong-config
+          env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pingpong-secret
+                  key: PGPASSWORD
           volumeMounts:
-          - name: shared-image
-            mountPath: /data
+            - name: shared-image
+              mountPath: /data

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pingpong-config
+data:
+  PGHOST: "postgres-svc.exercises.svc.cluster.local"
+  PGUSER: "pingponguser"
+  PGDATABASE: "pingpongdb"
+  PGPORT: "5432"
+  PORT: "3000"
