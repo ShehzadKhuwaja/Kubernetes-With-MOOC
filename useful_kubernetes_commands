@@ -35,8 +35,30 @@ kubectl get pvc
 kubectl describe pvc shared-pvc
 kubectl logs backend-76b9697f85-n8tpr
 kubectl run backend-debug --rm -it --image=shehzadkhuwaja/todoapp:latest -- sh
+kubectl run -it --rm --restart=Never --image postgres psql-for-debugging sh
+kubectl describe statefulset postgres-statefulset -n exercises
+kubectl rollout restart deployment ping-pong-dep -n exercises
 
 
 -- To push your docker image to docker hub --
 docker tag express-server:local yourusername/express-server:latest
 docker push shehzadkhuwaja/express-server:latest
+
+-- Commands for encryption and decryption
+age-keygen -o key.txt
+sops --encrypt \
+       --age age17mgq9ygh23q0cr00mjn0dfn8msak0apdy0ymjv5k50qzy75zmfkqzjdam4 \
+       --encrypted-regex '^(data)$' \
+       secret.yaml > secret.enc.yaml
+export SOPS_AGE_KEY_FILE=$(pwd)/key.txt
+sops --decrypt secret.enc.yaml > secret.yaml
+sops --decrypt secret.enc.yaml | kubectl apply -f -
+
+
+-- Testing db connection
+kubectl run -it --rm --restart=Never --image postgres psql-for-debugging sh
+  $ psql postgres://yourpostgresurlhere
+  psql (16.2 (Debian 16.2-1.pgdg120+2))
+  Type "help" for help.
+  postgres=# \d
+  Did not find any relations.
