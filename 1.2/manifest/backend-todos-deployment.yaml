@@ -18,3 +18,12 @@ spec:
           image: shehzadkhuwaja/backend-todos:latest
           ports:
             - containerPort: 3001
+          envFrom:
+            - configMapRef:
+                name: todo-backend-config
+          env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: todo-secret
+                  key: PGPASSWORD

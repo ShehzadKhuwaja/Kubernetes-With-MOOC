@@ -7,3 +7,7 @@ data:
   PORT: "3001"
   NODE_ENV: "production"
   CORS_ORIGIN: "http://frontend.project.svc.cluster.local"
+  PGUSER: "todoappuser"
+  PGDATABASE: "tododb"
+  PGPORT: "5432"
+  PGHOST: "postgres-svc.project.svc.cluster.local"
