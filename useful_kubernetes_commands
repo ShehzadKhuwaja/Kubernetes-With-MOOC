@@ -39,6 +39,10 @@ kubectl run -it --rm --restart=Never --image postgres psql-for-debugging sh
 kubectl describe statefulset postgres-statefulset -n exercises
 kubectl rollout restart deployment ping-pong-dep -n exercises
 
+-- debugging jobs
+kubectl get pods -n project --selector=job-name=wikipedia-todo-generator-2898d
+kubectl get jobs -n project
+
 
 -- To push your docker image to docker hub --
 docker tag express-server:local yourusername/express-server:latest

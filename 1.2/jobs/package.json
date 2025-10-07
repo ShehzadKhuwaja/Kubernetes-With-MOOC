@@ -1,0 +1,15 @@
+{
+  "name": "jobs",
+  "version": "1.0.0",
+  "description": "job to create random todos every hour",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shehzad Khuawja",
+  "license": "ISC",
+  "dependencies": {
+    "https": "^1.0.0",
+    "pg": "^8.16.3"
+  }
+}
