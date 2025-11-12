@@ -13,10 +13,6 @@ spec:
       labels:
         app: ping-pong
     spec:
-      volumes:
-        - name: shared-image
-          persistentVolumeClaim:
-            claimName: image-claim
       containers:
         - name: ping-pong
           image: shehzadkhuwaja/ping-pong:latest
@@ -29,6 +25,3 @@ spec:
                 secretKeyRef:
                   name: pingpong-secret
                   key: PGPASSWORD
-          volumeMounts:
-            - name: shared-image
-              mountPath: /data
