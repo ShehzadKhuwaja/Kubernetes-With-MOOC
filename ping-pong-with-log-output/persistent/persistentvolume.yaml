@@ -1,3 +1,5 @@
+# no longer needed for GKE as it can provision storage itself, you just need to provide volume claim
+
 apiVersion: v1
 kind: PersistentVolume
 metadata:

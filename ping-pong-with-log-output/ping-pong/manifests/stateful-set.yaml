@@ -36,7 +36,7 @@ spec:
           volumeMounts:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
-              subPath: postgres`
+              subPath: postgres
   volumeClaimTemplates:
     - metadata:
         name: postgres-storage
@@ -46,18 +46,3 @@ spec:
         resources:
           requests:
             storage: 100Mi
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgres-svc
-  namespace: exercises
-  labels:
-    app: postgresApp
-spec:
-  ports:
-    - port: 5432
-  clusterIP: None
-  selector:
-    app: postgresApp

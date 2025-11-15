@@ -111,9 +111,17 @@ gcloud auth login
 gcloud container clusters create dwk-cluster --zone=europe-north1-b --cluster-version=1.32 --disk-size=32 --num-nodes=3 --machine-type=e2-micro
 gcloud container clusters get-credentials CLUSTER_NAME \
     --location=CONTROL_PLANE_LOCATION
+gcloud container clusters delete CLUSTER_NAME --zone ZONE
+gcloud container clusters delete pingpong-cluster --zone=europe-north1-b
+gcloud container operations cancel <OPERATION_NAME> --zone=europe-north1-b
 
 Billing Details
 gcloud beta billing projects describe 145104890783
 gcloud beta billing accounts list
 gcloud beta billing projects link 145104890783 \
   --billing-account=XXXXXX-XXXXXX-XXXXXX
+
+
+How to access postgres
+kubectl exec -it postgres-statefulset-0 -n exercises -c postgres-db -- bash
+psql -U $POSTGRES_USER -d $POSTGRES_DB

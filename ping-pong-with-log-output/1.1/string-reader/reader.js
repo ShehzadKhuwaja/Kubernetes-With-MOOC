@@ -13,7 +13,7 @@ const envVariable = process.env.MESSAGE || "MESSAGE not set";
 
 // URL of Ping Pong app inside the cluster
 // (pingpong is the service name, 2345 is the service port)
-const pingpongURL = 'http://ping-pong-svc:2345/pings';
+const pingpongURL = 'http://ping-pong-svc:80/pings';
 
 app.get('/', async (req, res) => {
   try {

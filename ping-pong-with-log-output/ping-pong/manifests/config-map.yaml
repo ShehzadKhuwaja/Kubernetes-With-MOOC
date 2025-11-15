@@ -7,5 +7,5 @@ data:
   PGHOST: "postgres-svc.exercises.svc.cluster.local"
   PGUSER: "pingponguser"
   PGDATABASE: "pingpongdb"
-  PGPORT: "5432"
+  PGPORT: "80"
   PORT: "3000"

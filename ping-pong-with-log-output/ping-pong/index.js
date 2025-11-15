@@ -13,26 +13,9 @@ const pool = new Pool({
   port: process.env.PGPORT,
 });
 
-// Ensure counter table and row exist
-(async () => {
-  try {
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS counter (
-        id SERIAL PRIMARY KEY,
-        value INT NOT NULL
-      );
-    `);
-
-    const res = await pool.query("SELECT * FROM counter LIMIT 1");
-    if (res.rows.length === 0) {
-      await pool.query("INSERT INTO counter(value) VALUES(0)");
-    }
-
-    console.log("✅ Counter table ready");
-  } catch (err) {
-    console.error("❌ Error initializing database:", err);
-  }
-})();
+app.get("/", (req, res) => {
+  res.status(200).send("OK");
+});
 
 // Pingpong endpoint
 app.get("/pingpong", async (req, res) => {

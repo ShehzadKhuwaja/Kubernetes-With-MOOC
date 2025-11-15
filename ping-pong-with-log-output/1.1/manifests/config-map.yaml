@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: log-output-config-map
+  namespace: exercises
 data:
   # property-like keys; each key maps to a simple value
   MESSAGE: "hello world"
