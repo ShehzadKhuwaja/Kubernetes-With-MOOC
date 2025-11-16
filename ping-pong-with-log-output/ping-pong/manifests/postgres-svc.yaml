@@ -6,7 +6,7 @@ metadata:
   labels:
     app: postgresApp
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 80
       protocol: TCP

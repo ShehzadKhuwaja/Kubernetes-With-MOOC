@@ -124,4 +124,8 @@ gcloud beta billing projects link 145104890783 \
 
 How to access postgres
 kubectl exec -it postgres-statefulset-0 -n exercises -c postgres-db -- bash
-psql -U $POSTGRES_USER -d $POSTGRES_DB
+psql -U $POSTGRES_USER -d $
+
+Enabling gateway API
+Note: when using gateway api the service type should be cluster IP whereas for ingress it has to be nodeport
+gcloud container clusters update clustername --location=europe-north1-b --gateway-api=standard
