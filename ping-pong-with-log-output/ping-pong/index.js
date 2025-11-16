@@ -13,12 +13,8 @@ const pool = new Pool({
   port: process.env.PGPORT,
 });
 
-app.get("/", (req, res) => {
-  res.status(200).send("OK");
-});
-
 // Pingpong endpoint
-app.get("/pingpong", async (req, res) => {
+app.get("/", async (req, res) => {
   try {
     await pool.query("UPDATE counter SET value = value + 1 WHERE id = 1");
     const result = await pool.query("SELECT value FROM counter WHERE id = 1");
