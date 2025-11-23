@@ -1,3 +1,4 @@
+# no more needed
 apiVersion: v1
 kind: PersistentVolume
 metadata:

@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: frontend-config
+  namespace: project
 data:
   # property-like keys; each key maps to a simple value
   config.js: |

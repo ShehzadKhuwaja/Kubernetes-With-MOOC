@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend-todos
-          image: shehzadkhuwaja/backend-todos:latest
+          image: PROJECT/backend-todos
           ports:
             - containerPort: 3001
           envFrom:

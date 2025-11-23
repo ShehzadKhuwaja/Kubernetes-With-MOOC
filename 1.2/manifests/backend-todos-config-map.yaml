@@ -9,5 +9,5 @@ data:
   CORS_ORIGIN: "http://frontend.project.svc.cluster.local"
   PGUSER: "todoappuser"
   PGDATABASE: "tododb"
-  PGPORT: "5432"
+  PGPORT: "80"
   PGHOST: "postgres-svc.project.svc.cluster.local"

@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - manifests/backend-config-map.yaml
+  - manifests/backend-deployment.yaml
+  - manifests/backend-service.yaml
+  - manifests/backend-todos-config-map.yaml
+  - manifests/backend-todos-deployment.yaml
+  - manifests/backend-todos-service.yaml
+  - manifests/frontend-config-map.yaml
+  - manifests/frontend-deployment.yaml
+  - manifests/frontend-service.yaml
+  - manifests/gateway.yaml
+  - manifests/postgres-stateful-set.yaml
+  - manifests/route.yaml
+  - manifests/todo-cronjob.yaml
+  - manifests/todo-secret.yaml
+  - Persistent/persistentvolumeclaim.yaml
+
+images:
+  - name: PROJECT/todoapp
+    newName: shehzadkhuwaja/todoapp
+  - name: PROJECT/todoappfrontend
+    newName: shehzadkhuwaja/todoappfrontend
+  - name: PROJECT/backend-todos
+    newName: shehzadkhuwaja/backend-todos
+  - name: PROJECT/todo-cronjob
+    newName: shehzadkhuwaja/todo-cronjob

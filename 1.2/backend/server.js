@@ -29,6 +29,19 @@ async function fetchNewImage() {
   saveMeta({ timestamp: Date.now(), servedAfterExpiry: false });
 }
 
+// Health check
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    maxTodoLength: MAX_TODO_LENGTH
+  });
+});
+
+app.get("/", (req, res) => {
+  res.status(200).send("Backend OK");
+});
+
 app.get("/api/image", async (req, res) => {
   try {
     const meta = loadMeta();

@@ -129,3 +129,6 @@ psql -U $POSTGRES_USER -d $
 Enabling gateway API
 Note: when using gateway api the service type should be cluster IP whereas for ingress it has to be nodeport
 gcloud container clusters update clustername --location=europe-north1-b --gateway-api=standard
+
+Applying Kustomization
+kubectl apply -k .

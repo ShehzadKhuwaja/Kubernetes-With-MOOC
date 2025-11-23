@@ -12,19 +12,13 @@ const PORT = process.env.PORT || 3000;
 const ALLOWED_ORIGIN = process.env.CORS_ORIGIN || '*';
 const MAX_TODO_LENGTH = Number(process.env.MAX_TODO_LENGTH) || 140;
 
-const db_name = process.env.PGDATABASE;
-const db_user = process.env.PGUSER;
-const db_port = process.env.PGPORT;
-const db_password = process.env.PGPASSWORD;
-const db_host = process.env.PGHOST;
-const PG_SSL = process.env.PG_SSL === 'true' || false;
-
-const DB_URL = process.env.DATABASE_URL || `postgres://${db_user}:${db_password}@${db_host}:${db_port}/${db_name}`;
-
-// ----- Postgres pool -----
+// PostgreSQL connection pool
 const pool = new Pool({
-  connectionString: DB_URL,
-  ssl: PG_SSL ? { rejectUnauthorized: false } : undefined
+  user: process.env.PGUSER,
+  host: process.env.PGHOST, // service name in K8s
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT,
 });
 
 // ----- Helpers -----
@@ -126,27 +120,6 @@ app.use(cors({ origin: ALLOWED_ORIGIN }));
 app.use(express.json());
 app.use(requestLogger);
 
-// ----- DB Init -----
-async function initDB() {
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS todos (
-      id SERIAL PRIMARY KEY,
-      text TEXT NOT NULL,
-      done BOOLEAN DEFAULT false,
-      created_at TIMESTAMP DEFAULT NOW()
-    )
-  `);
-}
-initDB().catch(err => {
-  console.error(JSON.stringify({
-    timestamp: new Date().toISOString(),
-    level: 'ERROR',
-    message: 'DB init error',
-    error: err.message
-  }));
-  process.exit(1);
-});
-
 // ----- Routes -----
 // Health check
 app.get('/health', (req, res) => {
@@ -155,6 +128,10 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString(),
     maxTodoLength: MAX_TODO_LENGTH
   });
+});
+
+app.get("/", (req, res) => {
+  res.status(200).send("Backend OK");
 });
 
 // GET all todos
@@ -323,8 +300,6 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`✅ todo-backend running on port ${PORT}`);
   console.log(`CORS allowed origin: ${ALLOWED_ORIGIN}`);
-  console.log(`Postgres host: ${db_host || 'from connection string'}`);
-  console.log(`Postgres database: ${db_name || 'from connection string'}`);
   console.log(`Max todo length: ${MAX_TODO_LENGTH} characters`);
   console.log('Request logging and validation middleware enabled');
 });

@@ -11,7 +11,7 @@ spec:
         spec:
           containers:
             - name: wikipedia-todo-generator
-              image: shehzadkhuwaja/todo-cronjob:latest
+              image: PROJECT/todo-cronjob
               env:
               - name: PGPASSWORD
                 valueFrom:

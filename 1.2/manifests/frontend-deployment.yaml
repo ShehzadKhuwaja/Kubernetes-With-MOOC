@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: shehzadkhuwaja/todoappfrontend:latest
+          image: PROJECT/todoappfrontend
           ports:
             - containerPort: 3000
           volumeMounts:
