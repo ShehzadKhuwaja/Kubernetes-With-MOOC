@@ -132,3 +132,6 @@ gcloud container clusters update clustername --location=europe-north1-b --gatewa
 
 Applying Kustomization
 kubectl apply -k .
+
+-- Command to generate key for google service account
+gcloud iam service-accounts keys create ./private-key.json --iam-account=github-actions@dwk-gke-331210.iam.gserviceaccount.com
