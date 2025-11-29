@@ -60,5 +60,5 @@ jobs:
         run: |-
           kustomize edit set image PROJECT/todoapp=$IMAGE_TAG
           kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment $SERVICE
-          kubectl get services -o wide
+          kubectl rollout status deployment $SERVICE -n project
+          kubectl get services -o wide -n project
