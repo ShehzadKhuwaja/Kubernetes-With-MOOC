@@ -56,6 +56,7 @@ jobs:
         uses: imranismail/setup-kustomize@v2.1.0
 
       - name: Deploy
+        working-directory: ./1.2/
         run: |-
           kustomize edit set image PROJECT/todoapp=$IMAGE_TAG
           kustomize build . | kubectl apply -f -
