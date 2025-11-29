@@ -1,4 +1,4 @@
-name: Backend Todos Release application
+name: Backend Todos Api Release application
 
 on:
   push:
@@ -7,7 +7,7 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: todoapp-cluster
   GKE_ZONE: europe-north1-b
-  REGISTRY: europe-north1-docker.pkg.dev
+  REGISTRY: us-central1-docker.pkg.dev
   REPOSITORY: my-repository
   IMAGE: backend-todos
   SERVICE: backend-todos
@@ -17,6 +17,7 @@ jobs:
   build-publish-deploy:
     name: Build, Publish and Deploy
     runs-on: ubuntu-latest
+    environment: Todoapp
 
     steps:
       - name: Checkout
@@ -32,7 +33,8 @@ jobs:
       - name: 'Use gcloud CLI'
         run: gcloud info
 
-      - run: gcloud --quiet auth configure-docker
+      - name: 'Set up Docker Buildx'
+        run: gcloud auth configure-docker "$REGISTRY"
 
       - name: 'Get GKE credentials'
         uses: 'google-github-actions/get-gke-credentials@v2'
@@ -45,7 +47,7 @@ jobs:
         run: echo "IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
 
       - name: Build
-        run: docker build --tag $IMAGE_TAG .
+        run: docker build --tag $IMAGE_TAG 1.2/backend-todos/.
 
       - name: Publish
         run: docker push $IMAGE_TAG
@@ -54,8 +56,9 @@ jobs:
         uses: imranismail/setup-kustomize@v2.1.0
 
       - name: Deploy
+        working-directory: ./1.2/
         run: |-
           kustomize edit set image PROJECT/backend-todos=$IMAGE_TAG
           kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment $SERVICE
-          kubectl get services -o wide
+          kubectl rollout status deployment $SERVICE -n project
+          kubectl get services -o wide -n project
