@@ -19,12 +19,12 @@ resources:
   - manifests/todo-secret.yaml
   - Persistent/persistentvolumeclaim.yaml
 
-images:
-  - name: PROJECT/todoapp
-    newName: shehzadkhuwaja/todoapp
-  - name: PROJECT/todoappfrontend
-    newName: shehzadkhuwaja/todoappfrontend
-  - name: PROJECT/backend-todos
-    newName: shehzadkhuwaja/backend-todos
-  - name: PROJECT/todo-cronjob
-    newName: shehzadkhuwaja/todo-cronjob
+#images:
+#  - name: PROJECT/todoapp
+#    newName: shehzadkhuwaja/todoapp
+#  - name: PROJECT/todoappfrontend
+#    newName: shehzadkhuwaja/todoappfrontend
+#  - name: PROJECT/backend-todos
+#    newName: shehzadkhuwaja/backend-todos
+#  - name: PROJECT/todo-cronjob
+#    newName: shehzadkhuwaja/todo-cronjob
