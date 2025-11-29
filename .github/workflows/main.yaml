@@ -33,7 +33,8 @@ jobs:
       - name: 'Use gcloud CLI'
         run: gcloud info
 
-      - run: gcloud --quiet auth configure-docker
+      - name: 'Set up Docker Buildx'
+        run: gcloud auth configure-docker "$REGISTRY"
 
       - name: 'Get GKE credentials'
         uses: 'google-github-actions/get-gke-credentials@v2'
