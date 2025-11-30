@@ -3,7 +3,7 @@ name: Frontend Release application
 on:
   push:
     paths:
-        - '1.2/frontend/**'
+        - './1.2/frontend/todo-app-frontend/**'
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
