@@ -6,6 +6,7 @@ resources:
   - manifests/backend-config-map.yaml
   - manifests/backend-deployment.yaml
   - manifests/backend-service.yaml
+  - manifests/postgres-init-config.yaml
   - manifests/backend-todos-config-map.yaml
   - manifests/backend-todos-deployment.yaml
   - manifests/backend-todos-service.yaml

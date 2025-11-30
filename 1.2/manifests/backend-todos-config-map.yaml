@@ -10,4 +10,4 @@ data:
   PGUSER: "todoappuser"
   PGDATABASE: "tododb"
   PGPORT: "80"
-  PGHOST: "postgres-svc.project.svc.cluster.local"
+  PGHOST: "postgres-svc" # reason for not using postgres-svc.project.svc.cluster.local is so that it can be injected dynamically as per environment

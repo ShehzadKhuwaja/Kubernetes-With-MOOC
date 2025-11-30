@@ -63,5 +63,5 @@ jobs:
           kustomize edit set namespace ${GITHUB_REF#refs/heads/}
           kustomize edit set image PROJECT/todoappfrontend=$IMAGE_TAG
           kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment $SERVICE -n project
-          kubectl get services -o wide -n project
+          kubectl rollout status deployment $SERVICE
+          kubectl get services -o wide
