@@ -32,6 +32,7 @@
 -[3.3.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.3/ping-pong-with-log-output)  
 -[3.4.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.4/ping-pong-with-log-output)  
 -[3.5.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.5/1.2)  
--[3.6.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.6/1.2)
+-[3.6.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.6/1.2)  
+-[3.7.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.7/1.2)  
 
 
