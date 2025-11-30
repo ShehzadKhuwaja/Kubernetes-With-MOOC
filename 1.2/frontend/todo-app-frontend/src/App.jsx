@@ -58,7 +58,7 @@ function App() {
 
       {/* Todo App Section */}
       <div style={{ marginTop: "2rem" }}>
-        <h2>Todo App</h2>
+        <h2>Todo App Feature 1</h2>
         <div>
           <input
             type="text"
