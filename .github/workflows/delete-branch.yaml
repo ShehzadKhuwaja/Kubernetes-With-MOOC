@@ -1,0 +1,40 @@
+name: Delete Kubernetes Namespace on Branch Delete
+
+on:
+  delete:
+    branches:
+      - '**'
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: todoapp-cluster
+  GKE_ZONE: europe-north1-b
+
+jobs:
+  delete-namespace:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GKE_SA_KEY }}'
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Get GKE credentials
+        uses: google-github-actions/get-gke-credentials@v2
+        with:
+          cluster_name: '${{ env.GKE_CLUSTER }}'
+          project_id: '${{ env.PROJECT_ID }}'
+          location: '${{ env.GKE_ZONE }}'
+
+      - name: Delete namespace
+        run: |
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          
+          echo "Deleting namespace: $BRANCH_NAME"
+
+          # Delete namespace (ignore if it doesn't exist)
+          kubectl delete namespace "$BRANCH_NAME" --ignore-not-found=true
