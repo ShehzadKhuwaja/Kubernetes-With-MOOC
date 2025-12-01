@@ -1,5 +1,18 @@
 # Kubernetes-With-MOOC
 
+| Category | Cloud SQL (DBaaS) | Postgres on GKE (PVC) |
+|---------|-------------------|------------------------|
+| **Setup Effort** | Very easy | Complex |
+| **Maintenance** | Almost none | Fully your responsibility |
+| **Backups** | Automatic, PITR | Manual scripts/tools |
+| **High Availability (HA)** | Built-in | Must build (Patroni/Stolon) |
+| **Scaling** | Easy vertical scaling | Flexible but complex |
+| **Cost** | Higher | Lower but labor-intensive |
+| **Customization** | Limited | Full control |
+| **Reliability** | Extremely high | Depends on your setup |
+| **Best For** | Production apps, minimal ops | Custom setups, low budget, dev/test |
+
+
 ## Exercises
 
 ### Chapter 2
