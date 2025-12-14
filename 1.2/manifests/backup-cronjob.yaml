@@ -1,0 +1,56 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-gcs-backup
+  namespace: project
+spec:
+  schedule: "*/5 * * * *"    # Daily at 2 AM
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: backup
+            image: gcr.io/ping-pong-477707/pg-gcs-backup:latest
+            volumeMounts:
+              - name: gcs-key
+                mountPath: /secrets
+                readOnly: true
+            env:
+              - name: GOOGLE_APPLICATION_CREDENTIALS
+                value: /secrets/service-account.json
+              - name: PG_USER
+                valueFrom:
+                  configMapKeyRef:
+                    name: todo-backend-config
+                    key: PGUSER
+              - name: PG_HOST
+                valueFrom:
+                  configMapKeyRef:
+                    name: todo-backend-config
+                    key: PGHOST
+              - name: PG_PORT
+                valueFrom:
+                  configMapKeyRef:
+                    name: todo-backend-config
+                    key: PGPORT
+              - name: PG_DB
+                valueFrom:
+                  configMapKeyRef:
+                    name: todo-backend-config
+                    key: PGDATABASE
+              - name: PG_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: todo-secret
+                    key: PGPASSWORD
+              - name: GCS_BUCKET
+                valueFrom:
+                  configMapKeyRef:
+                    name: todo-backend-config
+                    key: GCS_BUCKET
+          volumes:
+            - name: gcs-key
+              secret:
+                secretName: gcs-backup-secret

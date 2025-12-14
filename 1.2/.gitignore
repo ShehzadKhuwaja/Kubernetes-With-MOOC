@@ -1,1 +1,3 @@
-manifest/todo-secret.yaml
+manifests/todo-secret.yaml
+manifests/gcs-backup-key.yaml
+gcp-key.json

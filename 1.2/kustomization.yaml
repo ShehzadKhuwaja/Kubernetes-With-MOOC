@@ -4,6 +4,8 @@ namespace: project
 
 resources:
   - manifests/backend-config-map.yaml
+  - manifests/gcs-backup-key.yaml
+  - manifests/backup-cronjob.yaml
   - manifests/backend-deployment.yaml
   - manifests/backend-service.yaml
   - manifests/postgres-init-config.yaml

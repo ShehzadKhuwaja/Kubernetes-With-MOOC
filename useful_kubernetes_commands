@@ -138,3 +138,28 @@ gcloud iam service-accounts keys create ./private-key.json --iam-account=github-
 
 Command to delete a branch
 git push origin --delete branch_name
+
+-- Commands to create Bucket, give service account permissions, and generating key
+gcloud iam service-accounts create gcs-backup-sa --description="SA for u
+ploading DB backups to GCS" --display-name="GCS Backup SA"     
+
+gcloud storage buckets add-iam-policy-binding gs://todo-db-backups \
+  --member="serviceAccount:gcs-backup-sa@<PROJECT_ID>.iam.gserviceaccount.com" \
+  --role="roles/storage.objectAdmin"
+
+gcloud iam service-accounts keys create key.json \
+  --iam-account=gcs-backup-sa@<PROJECT_ID>.iam.gserviceaccount.com
+
+kubectl create secret generic gcs-backup-key \
+  --from-file=key.json
+
+Force deleting a container inside a Kubernetes
+kubectl delete pod <pod-name> --namespace <namespace> --grace-period=0 --force
+
+
+--- To observe the behaviour of pods and deployment in real time ---
+kubectl get deployments --watch
+kubectl get pods --watch
+
+-- To autoscale nodes
+$ gcloud container clusters update dwk-cluster --zone=europe-north1-b --enable-autoscaling --min-nodes=1 --max-nodes=5
