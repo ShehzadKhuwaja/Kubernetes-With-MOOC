@@ -167,3 +167,6 @@ $ gcloud container clusters update dwk-cluster --zone=europe-north1-b --enable-a
 
 -- Command to understand top utilization of resources by pods
 Kubectl top pods
+
+-- How to enable logging and monitoring in cluster
+gcloud container clusters update my-cluster --zone us-central1-a --enable-stackdriver-kubernetes

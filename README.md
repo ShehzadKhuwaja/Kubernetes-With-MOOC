@@ -13,6 +13,9 @@
 | **Best For** | Production apps, minimal ops | Custom setups, low budget, dev/test |
 
 
+### Observability
+![Screenshot from Monitoring Dashboard in GC](images/image.png)
+
 ## Exercises
 
 ### Chapter 2
@@ -50,6 +53,8 @@
 -[3.8.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.8/1.2)  
 -[3.9.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.9/)  
 -[3.10.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.10/1.2)  
--[3.11.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.11/1.2)
+-[3.11.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.11/1.2)  
+-[3.12.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.12/1.2)
+
 
 
