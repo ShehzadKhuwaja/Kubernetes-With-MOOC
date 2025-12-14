@@ -163,3 +163,7 @@ kubectl get pods --watch
 
 -- To autoscale nodes
 $ gcloud container clusters update dwk-cluster --zone=europe-north1-b --enable-autoscaling --min-nodes=1 --max-nodes=5
+
+
+-- Command to understand top utilization of resources by pods
+Kubectl top pods

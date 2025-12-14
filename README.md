@@ -49,6 +49,7 @@
 -[3.7.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.7/1.2)  
 -[3.8.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.8/1.2)  
 -[3.9.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.9/)  
--[3.10.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.10/1.2)    
+-[3.10.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.10/1.2)  
+-[3.11.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/3.11/1.2)
 
 

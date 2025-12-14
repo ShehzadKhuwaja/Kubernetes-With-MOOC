@@ -6,6 +6,9 @@ BACKUP_FILE="/tmp/${PG_DB}_${DATE}.sql.gz"
 
 export PGPASSWORD="$PG_PASSWORD"
 
+# Authenticate with GCP
+gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS} # line to fix
+
 pg_dump \
 -h "$PG_HOST" \
 -p "$PG_PORT" \
