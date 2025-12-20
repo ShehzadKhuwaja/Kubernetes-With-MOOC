@@ -26,6 +26,12 @@ spec:
           mountPath: /shared
     - name: log-reader
       image: shehzadkhuwaja/string-reader:latest
+      readinessProbe:
+        httpGet:
+          path: /ready
+          port: 3000
+        initialDelaySeconds: 30
+        periodSeconds: 5
       env:
       - name: MESSAGE
         valueFrom:

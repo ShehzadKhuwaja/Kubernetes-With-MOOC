@@ -15,6 +15,17 @@ const envVariable = process.env.MESSAGE || "MESSAGE not set";
 // (pingpong is the service name, 2345 is the service port)
 const pingpongURL = 'http://ping-pong-svc:80/pings';
 
+// Readiness endpoint
+app.get("/ready", async (req, res) => {
+  try {
+    await fetch(pingpongURL);
+    res.status(200).send("READY");
+  } catch (err) {
+    console.error("❌ Readiness check failed: pingpong app not reachable");
+    res.status(500).send("NOT READY");
+  }
+});
+
 app.get('/', async (req, res) => {
   try {
     let latestLog = "No logs yet!";

@@ -13,6 +13,18 @@ const pool = new Pool({
   port: process.env.PGPORT,
 });
 
+// Readiness endpoint
+app.get("/ready", async (req, res) => {
+  try {
+    // Lightweight DB check
+    await pool.query("SELECT 1");
+    res.status(200).send("READY");
+  } catch (err) {
+    console.error("❌ Readiness check failed: DB not reachable");
+    res.status(500).send("NOT READY");
+  }
+});
+
 // Pingpong endpoint
 app.get("/", async (req, res) => {
   try {
