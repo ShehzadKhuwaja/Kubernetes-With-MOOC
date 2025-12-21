@@ -18,6 +18,12 @@ spec:
       containers:
         - name: backend-todos
           image: PROJECT/backend-todos
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3001
+            initialDelaySeconds: 30
+            periodSeconds: 5
           resources:
             requests:
               memory: "64Mi"

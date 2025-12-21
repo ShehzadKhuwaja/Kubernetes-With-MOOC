@@ -170,3 +170,8 @@ Kubectl top pods
 
 -- How to enable logging and monitoring in cluster
 gcloud container clusters update my-cluster --zone us-central1-a --enable-stackdriver-kubernetes
+
+-- HOW to rollback to previous deployment
+kubectl describe deployment flaky-update-dep | grep Image
+kubectl rollout undo deployment flaky-update-dep --to-revision=1
+kubectl rollout undo --help
