@@ -1,0 +1,5 @@
+count(
+  kube_pod_info{namespace="prometheus"}
+    * on (namespace, pod)
+    kube_pod_owner{owner_kind="StatefulSet"}
+)

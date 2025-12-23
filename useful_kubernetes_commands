@@ -104,6 +104,7 @@ helm upgrade --install loki grafana/loki-simple-scalable \
   --set ingester.heartbeatPeriod=5s
 
 -- Google cloud commands --
+gcloud container clusters list
 gcloud projects list
 gcloud config set project dwk-gke-idhere
 gcloud services enable container.googleapis.com
