@@ -25,6 +25,10 @@ app.get("/ready", async (req, res) => {
   }
 });
 
+app.get("/hello", async (req, res) => {
+  res.send('Welcome 2026')
+});
+
 // Pingpong endpoint
 app.get("/", async (req, res) => {
   try {

@@ -19,6 +19,14 @@ spec:
   - matches:
       - path:
           type: PathPrefix
+          value: /hello
+    backendRefs:
+      - name: ping-pong-svc
+        port: 80
+
+  - matches:
+      - path:
+          type: PathPrefix
           value: /
     backendRefs:
       - name: log-output-svc

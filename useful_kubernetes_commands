@@ -176,3 +176,9 @@ gcloud container clusters update my-cluster --zone us-central1-a --enable-stackd
 kubectl describe deployment flaky-update-dep | grep Image
 kubectl rollout undo deployment flaky-update-dep --to-revision=1
 kubectl rollout undo --help
+
+-- How to debug argo rollout
+kubectl get analysisruns -n exercises
+kubectl describe analysisrun <analysisrun-name>
+
+kubectl edit rollout ping-pong-rollout -n exercises
