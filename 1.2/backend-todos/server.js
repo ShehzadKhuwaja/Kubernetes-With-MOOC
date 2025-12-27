@@ -205,57 +205,36 @@ app.post('/api/todos', validateTodo, async (req, res) => {
 });
 
 // PUT update todo (validateTodo applied to ensure text length if provided)
-app.put('/api/todos/:id', validateTodo, async (req, res) => {
+app.put("/api/todos/:id", async (req, res) => {
   const { id } = req.params;
   const { text, done } = req.body;
 
+  if (typeof done !== "boolean") {
+    return res.status(400).json({
+      error: "`done` must be a boolean"
+    });
+  }
+
   try {
-    let result;
-    if (text !== undefined && done !== undefined) {
-      result = await pool.query('UPDATE todos SET text = $1, done = $2 WHERE id = $3 RETURNING *', [text, done, id]);
-    } else if (text !== undefined) {
-      result = await pool.query('UPDATE todos SET text = $1 WHERE id = $2 RETURNING *', [text, id]);
-    } else if (done !== undefined) {
-      result = await pool.query('UPDATE todos SET done = $1 WHERE id = $2 RETURNING *', [done, id]);
-    } else {
-      // nothing to update
-      return res.status(400).json({ error: 'No updatable fields provided' });
+    const result = await pool.query(
+      "UPDATE todos SET text = $1, done = $2 WHERE id = $3 RETURNING *",
+      [text, done, id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Todo not found" });
     }
 
-    if (!result.rows.length) {
-      console.log(JSON.stringify({
-        timestamp: new Date().toISOString(),
-        level: 'WARN',
-        message: 'Todo not found for update',
-        method: req.method,
-        url: req.originalUrl,
-        todoId: id
-      }));
-      return res.status(404).json({ error: 'Todo not found' });
-    }
-
-    console.log(JSON.stringify({
-      timestamp: new Date().toISOString(),
-      level: 'INFO',
-      message: 'Todo updated successfully',
-      method: req.method,
-      url: req.originalUrl,
-      todoId: id
-    }));
-    res.json(result.rows[0]);
+    res.json({
+      message: "Todo updated successfully",
+      todo: result.rows[0]
+    });
   } catch (err) {
-    console.error(JSON.stringify({
-      timestamp: new Date().toISOString(),
-      level: 'ERROR',
-      message: 'Database error updating todo',
-      method: req.method,
-      url: req.originalUrl,
-      error: err.message,
-      todoId: id
-    }));
-    res.status(500).json({ error: 'Database error' });
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 // DELETE todo
 app.delete('/api/todos/:id', async (req, res) => {

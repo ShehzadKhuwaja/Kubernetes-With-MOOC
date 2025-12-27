@@ -4,6 +4,8 @@ function App() {
   const [image, setImage] = useState("");
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
+  const pendingTodos = todos.filter((todo) => !todo.done);
+  const doneTodos = todos.filter((todo) => todo.done);
 
   // Runtime configs from ConfigMap (injected into window._env_)
   const backendApi = window._env_.REACT_APP_BACKEND_API;
@@ -19,6 +21,31 @@ function App() {
       .then((data) => setTodos(data))
       .catch((err) => console.error("Error fetching todos:", err));
   }, [backendApi]);
+
+  const handleMarkAsDone = async (todo) => {
+    try {
+      const response = await fetch(`${backendApi}/todos/${todo.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...todo, done: true }),
+      });
+
+      if (!response.ok) {
+        console.error("Failed to mark todo as done");
+        return;
+      }
+
+      const updatedTodo = await response.json();
+
+      setTodos((prevTodos) =>
+        prevTodos.map((t) =>
+          t.id === todo.id ? updatedTodo.todo : t
+        )
+      );
+    } catch (err) {
+      console.error("Error updating todo:", err);
+    }
+  };
 
   const handleAddTodo = async () => {
     if (newTodo.trim() === "" || newTodo.length > maxTodoLength) return;
@@ -58,7 +85,7 @@ function App() {
 
       {/* Todo App Section */}
       <div style={{ marginTop: "2rem" }}>
-        <h2>Todo App Feature 2 hello worl</h2>
+        <h2>Todo App Feature 2 hello world</h2>
         <div>
           <input
             type="text"
@@ -81,22 +108,65 @@ function App() {
           </button>
         </div>
 
-        <ul style={{ listStyle: "none", padding: 0, marginTop: "1rem" }}>
-          {todos.map((todo) => (
+        <ul style={{ listStyle: "none", padding: 0 }}>
+          {pendingTodos.map((todo) => (
             <li
               key={todo.id}
               style={{
                 background: "#1c1818ff",
                 margin: "6px auto",
                 padding: "8px",
-                width: "300px",
+                width: "350px",
                 borderRadius: "4px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
               }}
             >
-              {todo.text}
+              <span style={{ color: "white" }}>{todo.text}</span>
+
+              <button
+                onClick={() => handleMarkAsDone(todo)}
+                style={{
+                  padding: "4px 8px",
+                  backgroundColor: "green",
+                  color: "white",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                Mark as Done
+              </button>
             </li>
           ))}
         </ul>
+        
+        {doneTodos.length > 0 && (
+          <>
+            <h3 style={{ marginTop: "2rem" }}>Done ✅</h3>
+
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              {doneTodos.map((todo) => (
+                <li
+                  key={todo.id}
+                  style={{
+                    background: "#2a2a2a",
+                    margin: "6px auto",
+                    padding: "8px",
+                    width: "350px",
+                    borderRadius: "4px",
+                    color: "#aaa",
+                    textDecoration: "line-through",
+                  }}
+                >
+                  {todo.text}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+        
+
       </div>
     </div>
   );
