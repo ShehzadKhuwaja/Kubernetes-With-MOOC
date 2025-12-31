@@ -182,3 +182,23 @@ kubectl get analysisruns -n exercises
 kubectl describe analysisrun <analysisrun-name>
 
 kubectl edit rollout ping-pong-rollout -n exercises
+
+-- Commands to setup NATS
+auth:
+  enabled: false
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    namespace: prometheus
+helm upgrade -f myvalues.yaml my-nats oci://registry-1.docker.io/bitnamicharts/nats
+
+ kubectl exec --tty -i my-nats-client --namespace nats -- bash
+    nats -s nats://my-nats.nats.svc.cluster.local:4222  subscribe SomeSubject
+    nats -s nats://my-nats.nats.svc.cluster.local:4222  publish SomeSubject "Some message"
+
+ echo "Monitoring URL: http://127.0.0.1:8222"
+    kubectl port-forward --namespace nats svc/my-nats 8222:8222
+
+-- useful helm command
+ helm uninstall my-nats -n nats

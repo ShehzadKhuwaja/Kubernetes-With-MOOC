@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const { Pool } = require('pg');
+const { initNats, publishTodoEvent } = require("./nats");
 
 const app = express();
 
@@ -189,6 +190,16 @@ app.post('/api/todos', validateTodo, async (req, res) => {
       todoId: result.rows[0].id,
       preview: trimPreview(text, 30)
     }));
+
+    const newTodo = result.rows[0]
+
+    await publishTodoEvent({
+      event: "todo.created",
+      todoId: newTodo.id,
+      status: newTodo.done,
+      text: newTodo.text
+    });
+
     res.status(201).json(result.rows[0]);
   } catch (err) {
     console.error(JSON.stringify({
@@ -224,6 +235,16 @@ app.put("/api/todos/:id", async (req, res) => {
     if (result.rowCount === 0) {
       return res.status(404).json({ error: "Todo not found" });
     }
+
+    const updatedTodo = result.rows[0]
+
+    await publishTodoEvent({
+      event: "todo.updated",
+      todoId: updatedTodo.id,
+      status: updatedTodo.done,
+      text: updatedTodo.text
+    });
+
 
     res.json({
       message: "Todo updated successfully",
@@ -288,12 +309,25 @@ app.use((err, req, res, next) => {
 
 // ----- Start server -----
 // Do not log credentials — only non-sensitive info
-app.listen(PORT, () => {
-  console.log(`✅ todo-backend running on port ${PORT}`);
-  console.log(`CORS allowed origin: ${ALLOWED_ORIGIN}`);
-  console.log(`Max todo length: ${MAX_TODO_LENGTH} characters`);
-  console.log('Request logging and validation middleware enabled');
-});
+
+async function startServer() {
+  try {
+    await initNats();
+
+    app.listen(PORT, () => {
+      console.log(`✅ todo-backend running on port ${PORT}`);
+      console.log(`CORS allowed origin: ${ALLOWED_ORIGIN}`);
+      console.log(`Max todo length: ${MAX_TODO_LENGTH} characters`);
+      console.log('Request logging and validation middleware enabled');
+    });
+
+  } catch (err) {
+    console.error("❌ Failed to start server:", err);
+    process.exit(1);
+  }
+}
+
+startServer();
 
 // Graceful shutdown
 process.on('SIGTERM', () => {

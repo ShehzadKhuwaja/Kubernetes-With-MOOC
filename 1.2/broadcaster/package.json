@@ -1,0 +1,16 @@
+{
+  "name": "broadcaster",
+  "version": "1.0.0",
+  "description": "discord broadcaster",
+  "license": "ISC",
+  "author": "Shehzad Khuwaja",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "nats": "^2.29.3",
+    "node-fetch": "^3.3.2"
+  }
+}
