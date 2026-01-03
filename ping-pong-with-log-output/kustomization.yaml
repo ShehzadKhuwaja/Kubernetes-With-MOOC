@@ -9,7 +9,7 @@ resources:
   - ping-pong/manifests/postgres-svc.yaml
   - ping-pong/manifests/service.yaml
   - ping-pong/manifests/stateful-set.yaml
-  - Persistent/persistentvolumeclaim.yaml
+  - persistent/persistentvolumeclaim.yaml
   - 1.1/manifests/config-map.yaml
   - 1.1/manifests/deployment.yaml
   - 1.1/manifests/gateway.yaml
