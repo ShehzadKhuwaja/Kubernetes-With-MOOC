@@ -7,7 +7,6 @@ resources:
   - ping-pong/manifests/deployment.yaml
   - ping-pong/manifests/postgres-init-config.yaml
   - ping-pong/manifests/postgres-svc.yaml
-  - ping-pong/manifests/secret.yaml
   - ping-pong/manifests/service.yaml
   - ping-pong/manifests/stateful-set.yaml
   - Persistent/persistentvolumeclaim.yaml
