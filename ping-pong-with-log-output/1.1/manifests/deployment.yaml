@@ -20,12 +20,12 @@ spec:
             path: "information.txt"
   containers:
     - name: log-writer
-      image: shehzadkhuwaja/string-generator:latest
+      image: exercises/string-generator
       volumeMounts:
         - name: shared-logs
           mountPath: /shared
     - name: log-reader
-      image: shehzadkhuwaja/string-reader:latest
+      image: exercises/string-reader
       readinessProbe:
         httpGet:
           path: /ready

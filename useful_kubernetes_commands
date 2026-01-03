@@ -202,3 +202,13 @@ helm upgrade -f myvalues.yaml my-nats oci://registry-1.docker.io/bitnamicharts/n
 
 -- useful helm command
  helm uninstall my-nats -n nats
+
+
+-- Commands to setup ArgoCD --
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}' (beaware of how powershell handles json)
+or
+kubectl edit svc argocd-server -n argocd 
+kubectl get svc -n argocd
+kubectl get -n argocd secrets argocd-initial-admin-secret -o yaml

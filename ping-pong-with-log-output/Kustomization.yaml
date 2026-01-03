@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: exercises
+
+resources:
+  - ping-pong/manifests/config-map.yaml
+  - ping-pong/manifests/deployment.yaml
+  - ping-pong/manifests/postgres-init-config.yaml
+  - ping-pong/manifests/postgres-svc.yaml
+  - ping-pong/manifests/secret.yaml
+  - ping-pong/manifests/service.yaml
+  - ping-pong/manifests/stateful-set.yaml
+  - Persistent/persistentvolumeclaim.yaml
+  - 1.1/manifests/config-map.yaml
+  - 1.1/manifests/deployment.yaml
+  - 1.1/manifests/gateway.yaml
+  - 1.1/manifests/route.yaml
+  - 1.1/manifests/service.yaml
+
+images:
+  - name: exercises/pingpong
+    newName: shehzadkhuwaja/ping-pong:latest
+  - name: exercises/string-generator
+    newName: shehzadkhuwaja/string-generator:latest
+  - name: exercises/string-reader
+    newName: shehzadkhuwaja/string-reader:latest

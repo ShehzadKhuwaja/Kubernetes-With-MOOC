@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: ping-pong
-          image: shehzadkhuwaja/ping-pong:latest
+          image: exercises/pingpong
           readinessProbe:
             httpGet:
               path: /ready
