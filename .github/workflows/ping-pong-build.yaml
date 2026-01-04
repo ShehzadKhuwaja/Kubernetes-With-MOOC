@@ -9,6 +9,7 @@ jobs:
   build-publish:
     name: Build, Push, Release
     runs-on: ubuntu-latest
+    environment: pingpong
 
     steps:
       - name: Checkout
