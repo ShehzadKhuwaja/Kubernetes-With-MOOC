@@ -26,7 +26,7 @@ app.get("/ready", async (req, res) => {
 });
 
 app.get("/hello", async (req, res) => {
-  res.send('Welcome 2026: This is ArgoCD')
+  res.send('Welcome 2026: This is ArgoCD new year')
 });
 
 // Pingpong endpoint
