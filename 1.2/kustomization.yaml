@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: project
 
 resources:
-  - manifests/broadcaster-secret.yaml
   - manifests/broadcaster-deployment.yaml
   - manifests/backend-config-map.yaml
   - manifests/gcs-backup-key.yaml
