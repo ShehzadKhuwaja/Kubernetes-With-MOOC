@@ -5,7 +5,6 @@ namespace: project
 resources:
   - manifests/broadcaster-deployment.yaml
   - manifests/backend-config-map.yaml
-  - manifests/gcs-backup-key.yaml
   - manifests/backup-cronjob.yaml
   - manifests/backend-deployment.yaml
   - manifests/backend-service.yaml
