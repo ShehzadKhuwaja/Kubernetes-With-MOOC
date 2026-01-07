@@ -19,7 +19,6 @@ resources:
   - manifests/postgres-stateful-set.yaml
   - manifests/route.yaml
   - manifests/todo-cronjob.yaml
-  - manifests/todo-secret.yaml
   - Persistent/persistentvolumeclaim.yaml
 
 images:
