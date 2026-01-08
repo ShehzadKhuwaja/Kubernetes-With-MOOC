@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backend-todos
-          image: shehzadkhuwaja/backend-todos:v2
+          image: shehzadkhuwaja/backend-todos
           readinessProbe:
             httpGet:
               path: /ready
