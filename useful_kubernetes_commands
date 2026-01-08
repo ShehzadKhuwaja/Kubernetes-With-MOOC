@@ -59,6 +59,7 @@ sops --encrypt \
        --encrypted-regex '^(data)$' \
        secret.yaml > secret.enc.yaml
 export SOPS_AGE_KEY_FILE=$(pwd)/key.txt
+$env:SOPS_AGE_KEY_FILE = "$(Get-Location)\key.txt"
 sops --decrypt secret.enc.yaml > secret.yaml
 sops --decrypt secret.enc.yaml | kubectl apply -f -
 
@@ -192,6 +193,7 @@ metrics:
     enabled: true
     namespace: prometheus
 helm upgrade -f myvalues.yaml my-nats oci://registry-1.docker.io/bitnamicharts/nats
+helm install my-nats nats/nats -n nats
 
  kubectl exec --tty -i my-nats-client --namespace nats -- bash
     nats -s nats://my-nats.nats.svc.cluster.local:4222  subscribe SomeSubject

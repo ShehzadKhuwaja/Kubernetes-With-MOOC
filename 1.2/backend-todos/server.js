@@ -147,6 +147,10 @@ app.get("/", (req, res) => {
   res.status(200).send("Backend OK");
 });
 
+app.get("/helloworld", (req, res) => {
+  res.status(200).send("This is kubernetes")
+});
+
 // GET all todos
 app.get('/api/todos', async (req, res) => {
   try {

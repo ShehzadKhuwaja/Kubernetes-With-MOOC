@@ -2,3 +2,5 @@ manifests/todo-secret.yaml
 manifests/gcs-backup-key.yaml
 manifests/broadcaster-secret.yaml
 gcp-key.json
+base/manifests/broadcaster-secret.yaml
+base/manifests/todo-secret.yaml
