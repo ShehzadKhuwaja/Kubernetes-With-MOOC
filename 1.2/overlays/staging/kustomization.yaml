@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: staging
+
+resources:
+  - ../../base
+
+# Remove backup cronjob from staging
+patches:
+  - target:
+      kind: CronJob
+      name: postgres-gcs-backup
+    patch: |-
+      $patch: delete
+      apiVersion: batch/v1
+      kind: CronJob
+      metadata:
+        name: postgres-gcs-backup
+  # Configure broadcaster to log only in staging
+  - target:
+      kind: Deployment
+      name: broadcaster
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/env
+        value:
+          - name: NATS_URL
+            value: "nats://my-nats.nats.svc.cluster.local:4222"
+          - name: LOG_ONLY
+            value: "true"
+          - name: DISCORD_WEBHOOK_URL
+            value: "not-required-in-staging"

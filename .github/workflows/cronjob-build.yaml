@@ -46,11 +46,11 @@ jobs:
         uses: imranismail/setup-kustomize@v2
 
       - name: Use right image
-        working-directory: 1.2
-        run: kustomize edit set image project/todo-cronjob=shehzadkhuwaja/todo-cronjob:$GITHUB_SHA
+        working-directory: 1.2/overlays/staging
+        run: kustomize edit set image PROJECT/todo-cronjob=shehzadkhuwaja/todo-cronjob:$GITHUB_SHA
 
       - name: commit kustomization.yaml to GitHub
         uses: EndBug/add-and-commit@v9
         with:
-          add: '1.2/kustomization.yaml'
-          message: New version released ${{ github.sha }}
+          add: '1.2/overlays/staging/kustomization.yaml'
+          message: New cronjob version released ${{ github.sha }}
