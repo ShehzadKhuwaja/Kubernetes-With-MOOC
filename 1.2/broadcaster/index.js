@@ -2,9 +2,10 @@ const { connect, StringCodec } = require("nats");
 
 const NATS_URL = process.env.NATS_URL;
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
+const LOG_ONLY = process.env.LOG_ONLY === "true";
 
-if (!DISCORD_WEBHOOK_URL) {
-  throw new Error("DISCORD_WEBHOOK_URL is required");
+if (!DISCORD_WEBHOOK_URL && !LOG_ONLY) {
+  throw new Error("DISCORD_WEBHOOK_URL is required when LOG_ONLY is not enabled");
 }
 
 const sc = StringCodec();
@@ -22,7 +23,11 @@ async function start() {
   for await (const msg of sub) {
     try {
       const event = JSON.parse(sc.decode(msg.data));
-      await sendToDiscord(event);
+      if (LOG_ONLY) {
+        logMessage(event);
+      } else {
+        await sendToDiscord(event);
+      }
     } catch (err) {
       console.error("❌ Failed to process message:", err);
       // No retry → duplicates avoided
@@ -66,6 +71,20 @@ function formatDiscordMessage(event) {
       }
     ]
   };
+}
+
+function logMessage(event) {
+  const action =
+    event.event === "todo.created"
+      ? "🆕 Todo Created"
+      : event.event === "todo.updated"
+      ? "✏️ Todo Updated"
+      : "📌 Todo Event";
+
+  console.log(`[${new Date().toISOString()}] ${action}`);
+  console.log(`  ID: ${event.todoId}`);
+  console.log(`  Status: ${event.status ?? "N/A"}`);
+  console.log(`  Text: ${event.text ?? "N/A"}`);
 }
 
 start().catch(console.error);

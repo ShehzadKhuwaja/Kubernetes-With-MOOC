@@ -1,0 +1,39 @@
+name: Deploy to Production
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  deploy-production:
+    name: Update Production Images
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v2
+
+      - name: Get tag name
+        id: get_tag
+        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Update all images to tagged versions
+        working-directory: 1.2/overlays/production
+        run: |
+          # Update all images to use the tagged SHA
+          kustomize edit set image PROJECT/broadcaster=shehzadkhuwaja/broadcaster:${{ github.sha }}
+          kustomize edit set image PROJECT/todoappfrontend=shehzadkhuwaja/todoappfrontend:${{ github.sha }}
+          kustomize edit set image PROJECT/backend-todos=shehzadkhuwaja/backend-todos:${{ github.sha }}
+          kustomize edit set image PROJECT/todoapp=shehzadkhuwaja/todoapp:${{ github.sha }}
+          kustomize edit set image PROJECT/todo-cronjob=shehzadkhuwaja/todo-cronjob:${{ github.sha }}
+
+      - name: commit kustomization.yaml to GitHub
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: '1.2/overlays/production/kustomization.yaml'
+          message: 'Production release ${{ steps.get_tag.outputs.TAG }}'
