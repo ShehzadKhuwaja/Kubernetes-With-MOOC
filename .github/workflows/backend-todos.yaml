@@ -3,7 +3,7 @@ name: Backend Todos Api Release application
 on:
   push:
     paths:
-      - '1.2/backend-todos/**'
+      - '1.2/backend-todos/xyz**'
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
