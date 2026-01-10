@@ -34,7 +34,7 @@ patches:
 images:
 - name: PROJECT/backend-todos
   newName: shehzadkhuwaja/backend-todos
-  newTag: 463d43ff2f228d5eb584ba77ecb9a54cb4f4406c
+  newTag: de473453d224cf4a8bbfc96b8885684900b8b980
 - name: PROJECT/broadcaster
   newName: shehzadkhuwaja/broadcaster
   newTag: 882997fd7caec550e48cad79e94e6a676f43a144
