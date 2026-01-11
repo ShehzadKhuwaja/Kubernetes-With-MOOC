@@ -5,3 +5,16 @@ namespace: production
 
 resources:
   - ../../base
+
+images:
+- name: PROJECT/backend-todos
+  newName: shehzadkhuwaja/backend-todos
+- name: PROJECT/broadcaster
+  newName: shehzadkhuwaja/broadcaster
+  newTag: 882997fd7caec550e48cad79e94e6a676f43a144
+- name: PROJECT/todo-cronjob
+  newName: shehzadkhuwaja/todo-cronjob
+- name: PROJECT/todoapp
+  newName: shehzadkhuwaja/todoapp
+- name: PROJECT/todoappfrontend
+  newName: shehzadkhuwaja/todoappfrontend
