@@ -34,13 +34,13 @@ patches:
 images:
 - name: PROJECT/backend-todos
   newName: shehzadkhuwaja/backend-todos
-  newTag: de473453d224cf4a8bbfc96b8885684900b8b980
+  newTag: 857f74903572db2488edb9336f0edb502c2a4e07
 - name: PROJECT/broadcaster
   newName: shehzadkhuwaja/broadcaster
   newTag: 882997fd7caec550e48cad79e94e6a676f43a144
+- name: PROJECT/todo-cronjob
+  newName: shehzadkhuwaja/todo-cronjob
 - name: PROJECT/todoapp
   newName: shehzadkhuwaja/todoapp
 - name: PROJECT/todoappfrontend
   newName: shehzadkhuwaja/todoappfrontend
-- name: PROJECT/todo-cronjob
-  newName: shehzadkhuwaja/todo-cronjob
