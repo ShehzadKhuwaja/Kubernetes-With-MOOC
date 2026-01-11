@@ -4,7 +4,7 @@ metadata:
   name: postgres-gcs-backup
   namespace: project
 spec:
-  schedule: "*/5 * * * *"    # Daily at 2 AM
+  schedule: "0 0 * * *"    # Daily at 2 AM
   jobTemplate:
     spec:
       template:
