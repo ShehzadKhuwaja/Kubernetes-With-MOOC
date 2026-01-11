@@ -5,7 +5,7 @@ const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 const LOG_ONLY = process.env.LOG_ONLY === "true";
 
 if (!DISCORD_WEBHOOK_URL && !LOG_ONLY) {
-  throw new Error("DISCORD_WEBHOOK_URL is required when LOG_ONLY is not enabled");
+  throw new Error("DISCORD_WEBHOOK_URL is required When LOG_ONLY is not enabled");
 }
 
 const sc = StringCodec();

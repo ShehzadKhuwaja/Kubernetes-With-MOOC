@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: broadcaster
-        image: shehzadkhuwaja/broadcaster:v4
+        image: PROJECT/broadcaster
         env:
         - name: NATS_URL
           value: "nats://my-nats.nats.svc.cluster.local:4222"
