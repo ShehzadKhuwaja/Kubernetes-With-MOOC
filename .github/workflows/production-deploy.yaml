@@ -12,7 +12,7 @@ jobs:
     environment: production
 
     steps:
-      - name: Checkout
+      - name: Checkout main branch
         uses: actions/checkout@v4
         with:
           ref: main
@@ -27,14 +27,13 @@ jobs:
       - name: Update all images to tagged versions
         working-directory: 1.2/overlays/production
         run: |
-          # Update all images to use the tagged SHA
           kustomize edit set image PROJECT/broadcaster=shehzadkhuwaja/broadcaster:${{ github.sha }}
           kustomize edit set image PROJECT/todoappfrontend=shehzadkhuwaja/todoappfrontend:${{ github.sha }}
           kustomize edit set image PROJECT/backend-todos=shehzadkhuwaja/backend-todos:${{ github.sha }}
           kustomize edit set image PROJECT/todoapp=shehzadkhuwaja/todoapp:${{ github.sha }}
           kustomize edit set image PROJECT/todo-cronjob=shehzadkhuwaja/todo-cronjob:${{ github.sha }}
 
-      - name: commit kustomization.yaml to GitHub
+      - name: Commit kustomization.yaml to GitHub
         uses: EndBug/add-and-commit@v9
         with:
           add: '1.2/overlays/production/kustomization.yaml'
