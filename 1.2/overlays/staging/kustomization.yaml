@@ -37,7 +37,7 @@ images:
   newTag: 857f74903572db2488edb9336f0edb502c2a4e07
 - name: PROJECT/broadcaster
   newName: shehzadkhuwaja/broadcaster
-  newTag: 882997fd7caec550e48cad79e94e6a676f43a144
+  newTag: b5f19a6b090e65351d20c0595cd172668e78084d
 - name: PROJECT/todo-cronjob
   newName: shehzadkhuwaja/todo-cronjob
 - name: PROJECT/todoapp
