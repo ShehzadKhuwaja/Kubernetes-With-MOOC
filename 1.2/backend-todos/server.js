@@ -148,7 +148,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/helloworld", (req, res) => {
-  res.status(200).send("This is kubernetes 2025 MOOC Helsinki")
+  res.status(200).send("This is kubernetes 2025 MOOC Helsinki. Great Course")
 });
 
 // GET all todos
