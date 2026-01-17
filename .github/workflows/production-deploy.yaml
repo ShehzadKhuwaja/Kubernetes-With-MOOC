@@ -36,11 +36,11 @@ jobs:
           
           # Update all images with the commit SHA from the tagged release
           kustomize edit set image \
-            shehzadkhuwaja/broadcaster:${{ steps.vars.outputs.sha_short }} \
-            shehzadkhuwaja/frontend:${{ steps.vars.outputs.sha_short }} \
-            shehzadkhuwaja/backend-imageapi:${{ steps.vars.outputs.sha_short }} \
-            shehzadkhuwaja/backend-todos:${{ steps.vars.outputs.sha_short }} \
-            shehzadkhuwaja/wikipedia-todo-generator:${{ steps.vars.outputs.sha_short }}
+            PROJECT/broadcaster=shehzadkhuwaja/broadcaster:${{ steps.vars.outputs.sha_short }} \
+            PROJECT/todoappfrontend=shehzadkhuwaja/frontend:${{ steps.vars.outputs.sha_short }} \
+            PROJECT/todoapp=shehzadkhuwaja/backend-imageapi:${{ steps.vars.outputs.sha_short }} \
+            PROJECT/backend-todos=shehzadkhuwaja/backend-todos:${{ steps.vars.outputs.sha_short }} \
+            PROJECT/todo-cronjob=shehzadkhuwaja/wikipedia-todo-generator:${{ steps.vars.outputs.sha_short }}
       
       - name: Commit and push changes to config repo
         working-directory: config-repo
