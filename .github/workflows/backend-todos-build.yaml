@@ -1,56 +1,67 @@
-name: Build and publish application
+name: Build and Push Backend Todos
 
 on:
   push:
+    branches:
+      - main
     paths:
-      - 1.2/backend-todos/**
+      - '1.2/backend-todos/**'
+      - '.github/workflows/backend-todos-build.yaml'
+
+env:
+  IMAGE_NAME: shehzadkhuwaja/backend-todos
+  CONFIG_REPO: ShehzadKhuwaja/Kubernetes-With-MOOC-config
 
 jobs:
-  build-publish:
-    name: Build, Push, Release
+  build-and-push:
     runs-on: ubuntu-latest
-    environment: pingpong
-
+    
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Debug secrets presence
-        run: |
-          if [ -z "${{ secrets.DOCKERHUB_USERNAME }}" ]; then
-            echo "❌ DOCKERHUB_USERNAME is empty"
-          else
-            echo "✅ DOCKERHUB_USERNAME is set"
-          fi
-
-          if [ -z "${{ secrets.DOCKERHUB_TOKEN }}" ]; then
-            echo "❌ DOCKERHUB_TOKEN is empty"
-          else
-            echo "✅ DOCKERHUB_TOKEN is set"
-          fi
-
-      - name: Login to Docker Hub
+      - name:  Checkout code repository
+        uses:  actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      # tag image with the GitHub SHA to get a unique tag
-      - name: Build and publish backend
-        working-directory: 1.2/backend-todos
-        run: |-
-          docker build --tag "shehzadkhuwaja/backend-todos:$GITHUB_SHA" .
-          docker push "shehzadkhuwaja/backend-todos:$GITHUB_SHA"
-
-      - name: Set up Kustomize
-        uses: imranismail/setup-kustomize@v2
-
-      - name: Use right image
-        working-directory: 1.2/overlays/staging
-        run: kustomize edit set image PROJECT/backend-todos=shehzadkhuwaja/backend-todos:$GITHUB_SHA
-
-      - name: commit kustomization.yaml to GitHub
-        uses: EndBug/add-and-commit@v9
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Extract commit SHA
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
         with:
-          add: '1.2/overlays/staging/kustomization.yaml'
-          message: New backend-todos version released ${{ github.sha }}
+          context: ./1.2/backend-todos
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}
+            ${{ env.IMAGE_NAME }}:latest
+          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:buildcache
+          cache-to: type=registry,ref=${{ env.IMAGE_NAME }}:buildcache,mode=max
+      
+      - name:  Checkout config repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.CONFIG_REPO }}
+          token: ${{ secrets.CONFIG_REPO_TOKEN }}
+          path: config-repo
+      
+      - name: Update staging kustomization
+        working-directory: config-repo
+        run: |
+          cd overlays/staging
+          kustomize edit set image ${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}
+      
+      - name: Commit and push changes to config repo
+        working-directory: config-repo
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add overlays/staging/kustomization.yaml
+          git commit -m "Update backend-todos image to ${{ steps.vars.outputs.sha_short }}" || echo "No changes to commit"
+          git push

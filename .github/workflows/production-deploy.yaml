@@ -5,37 +5,48 @@ on:
     tags:
       - 'v*.*.*'
 
+env:
+  CONFIG_REPO: ShehzadKhuwaja/Kubernetes-With-MOOC-config
+
 jobs:
   deploy-production:
-    name: Update Production Images
     runs-on: ubuntu-latest
-    environment: production
-
-    steps:
-      - name: Checkout main branch
+    
+    steps: 
+      - name: Checkout code repository
+        uses: actions/checkout@v4
+      
+      - name: Extract tag and commit SHA
+        id: vars
+        run: |
+          echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      
+      - name:  Checkout config repository
         uses: actions/checkout@v4
         with:
-          ref: main
-
-      - name: Set up Kustomize
-        uses: imranismail/setup-kustomize@v2
-
-      - name: Get tag name
-        id: get_tag
-        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-
-      - name: Update all images to tagged versions
-        working-directory: 1.2/overlays/production
+          repository: ${{ env.CONFIG_REPO }}
+          token: ${{ secrets.CONFIG_REPO_TOKEN }}
+          path: config-repo
+      
+      - name: Update production kustomization with all images
+        working-directory: config-repo
         run: |
-          kustomize edit set image PROJECT/broadcaster=shehzadkhuwaja/broadcaster:${{ github.sha }}
-          kustomize edit set image PROJECT/todoappfrontend=shehzadkhuwaja/todoappfrontend:${{ github.sha }}
-          kustomize edit set image PROJECT/backend-todos=shehzadkhuwaja/backend-todos:${{ github.sha }}
-          kustomize edit set image PROJECT/todoapp=shehzadkhuwaja/todoapp:${{ github.sha }}
-          kustomize edit set image PROJECT/todo-cronjob=shehzadkhuwaja/todo-cronjob:${{ github.sha }}
-
-      - name: Commit kustomization.yaml to GitHub
-        uses: EndBug/add-and-commit@v9
-        with:
-          add: '1.2/overlays/production/kustomization.yaml'
-          message: 'Production release ${{ steps.get_tag.outputs.TAG }}'
-          push: origin HEAD:main
+          cd overlays/production
+          
+          # Update all images with the commit SHA from the tagged release
+          kustomize edit set image \
+            shehzadkhuwaja/broadcaster:${{ steps.vars.outputs.sha_short }} \
+            shehzadkhuwaja/frontend:${{ steps.vars.outputs.sha_short }} \
+            shehzadkhuwaja/backend-imageapi:${{ steps.vars.outputs.sha_short }} \
+            shehzadkhuwaja/backend-todos:${{ steps.vars.outputs.sha_short }} \
+            shehzadkhuwaja/wikipedia-todo-generator:${{ steps.vars.outputs.sha_short }}
+      
+      - name: Commit and push changes to config repo
+        working-directory: config-repo
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add overlays/production/kustomization.yaml
+          git commit -m "Deploy ${{ steps.vars.outputs.tag }} to production (commit:  ${{ steps.vars.outputs.sha_short }})"
+          git push
