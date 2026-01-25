@@ -214,3 +214,13 @@ or
 kubectl edit svc argocd-server -n argocd 
 kubectl get svc -n argocd
 kubectl get -n argocd secrets argocd-initial-admin-secret -o yaml
+
+-- To manually delete loadbalancer in case if it is not deleted on deleting the cluster
+gcloud compute forwarding-rules delete gkegw1-ckx4-staging-todoapp-gateway-tqlivmjumiv7 --global
+gcloud compute addresses delete gkegw1-ckx4-staging-todoapp-gateway-oi1hc6eeu2da --global   
+
+  additional checks to perform
+  gcloud compute forwarding-rules list
+  gcloud compute target-http-proxies list
+  gcloud compute url-maps list
+  gcloud compute backend-services list
