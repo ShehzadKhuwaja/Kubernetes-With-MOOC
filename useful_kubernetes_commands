@@ -224,3 +224,6 @@ gcloud compute addresses delete gkegw1-ckx4-staging-todoapp-gateway-oi1hc6eeu2da
   gcloud compute target-http-proxies list
   gcloud compute url-maps list
   gcloud compute backend-services list
+
+-- if resource issue, than to scale node use --
+ gcloud container node-pools create larger-pool --cluster dummysite-cluster --zone europe-north1-b --machine-type e2-medium --num-nodes 1
