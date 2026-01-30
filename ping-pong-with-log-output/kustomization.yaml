@@ -25,16 +25,17 @@ resources:
 
 
 images:
-- name: exercises/pingpong
-  newName: shehzadkhuwaja/ping-pong
-  newTag: 1dd3a591ae9595a06d1cc7b8db32cc85aadc1464
-- name: exercises/string-generator
-  newName: shehzadkhuwaja/string-generator:latest
-- name: exercises/string-reader
-  newName: shehzadkhuwaja/string-reader:v1
 - name: exercises/greeter-1
   newName: shehzadkhuwaja/greeter
   newTag: v1
 - name: exercises/greeter-2
   newName: shehzadkhuwaja/greeter
   newTag: v2
+- name: exercises/pingpong
+  newName: shehzadkhuwaja/ping-pong
+  newTag: 1dd3a591ae9595a06d1cc7b8db32cc85aadc1464
+- name: exercises/string-generator
+  newName: shehzadkhuwaja/string-generator:latest
+- name: exercises/string-reader
+  newName: shehzadkhuwaja/string-reader
+  newTag: 9254199bd016976af9369aa2f8ecb760c9c79da1
