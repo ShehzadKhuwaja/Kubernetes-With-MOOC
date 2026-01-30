@@ -14,6 +14,7 @@ const envVariable = process.env.MESSAGE || "MESSAGE not set";
 // URL of Ping Pong app inside the cluster
 // (pingpong is the service name, 2345 is the service port)
 const pingpongURL = 'http://ping-pong-svc:80/pings';
+const greetingAppURL = 'http://greeter-svc:80/greet';
 
 // Readiness endpoint
 app.get("/ready", async (req, res) => {
@@ -30,6 +31,7 @@ app.get('/', async (req, res) => {
   try {
     let latestLog = "No logs yet!";
     let pingPongs = 0;
+    let greetingOutput = "";
 
     // Get latest log entry
     if (fs.existsSync(logFile)) {
@@ -41,10 +43,17 @@ app.get('/', async (req, res) => {
     try {
       const response = await fetch(pingpongURL);
       if (response.ok) {
-        const data = await response.json();
+        let data = await response.json();
         pingPongs = data.count || 0;
       } else {
         console.error('Failed to fetch pong count:', response.statusText);
+      }
+      const greetingResponse = await fetch(greetingAppURL);
+      if (greetingResponse.ok) {
+        let data2 = await greetingResponse.json();
+        greetingOutput = data2.message;
+      } else {
+        console.error('Failed to fetech greeting content', greetingResponse);
       }
     } catch (err) {
       console.error('Error fetching pong count:', err.message);
@@ -53,7 +62,8 @@ app.get('/', async (req, res) => {
     const output = `file content: ${fileContent}
     env variable: MESSAGE=${envVariable}
     ${latestLog}.
-    Ping / Pongs: ${pingPongs}`;
+    Ping / Pongs: ${pingPongs}
+    ${greetingOutput}`;
 
     res.type('text/plain').send(output);
   } catch (err) {

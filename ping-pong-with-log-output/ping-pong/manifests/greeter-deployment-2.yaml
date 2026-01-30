@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: greeter-dep-2
+  namespace: exercises   # ✅ moved here
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: greeter
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: greeter
+        version: v2
+    spec:
+      containers:
+        - name: ping-pong
+          image: exercises/greeter-2
+          ports:
+            - containerPort: 3000

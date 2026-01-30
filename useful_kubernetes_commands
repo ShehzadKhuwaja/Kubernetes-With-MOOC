@@ -227,3 +227,13 @@ gcloud compute addresses delete gkegw1-ckx4-staging-todoapp-gateway-oi1hc6eeu2da
 
 -- if resource issue, than to scale node use --
  gcloud container node-pools create larger-pool --cluster dummysite-cluster --zone europe-north1-b --machine-type e2-medium --num-nodes 1
+
+-- Installing ISTIO --
+istioctl install --set profile=ambient --skip-confirmation
+kubectl label namespace default istio.io/dataplane-mode=ambient # use this to join the ambient mesh
+ for i in $(seq 1 100); do curl -sSI -o /dev/null http://34.88.228.238:80/; done # this is to generate traffic of kiali for graph  visualization
+
+-- useful debug commands --
+ kubectl get pod log-output-dep -n exercises -o jsonpath="{.status.containerStatuses[?(@.name=='log-reader')].imageID}"
+ kubectl logs -f log-output-dep -n exercises -c log-reader
+ kubectl exec -it log-output-dep -n exercises -c log-reader -- curl http://greeter-svc:80/greet     

@@ -9,12 +9,20 @@ resources:
 - ping-pong/manifests/postgres-svc.yaml
 - ping-pong/manifests/service.yaml
 - ping-pong/manifests/stateful-set.yaml
+- ping-pong/manifests/greeter-deployment.yaml
+- ping-pong/manifests/greeter-deployment-2.yaml
+- ping-pong/manifests/greeter-svc-1.yaml
+- ping-pong/manifests/greeter-svc-2.yaml
+- ping-pong/manifests/prometheus.yaml
+- ping-pong/manifests/kiali.yaml
 - persistent/persistentvolumeclaim.yaml
 - 1.1/manifests/config-map.yaml
 - 1.1/manifests/deployment.yaml
 - 1.1/manifests/gateway.yaml
 - 1.1/manifests/route.yaml
 - 1.1/manifests/service.yaml
+- 1.1/manifests/greeter-route.yaml
+
 
 images:
 - name: exercises/pingpong
@@ -23,4 +31,10 @@ images:
 - name: exercises/string-generator
   newName: shehzadkhuwaja/string-generator:latest
 - name: exercises/string-reader
-  newName: shehzadkhuwaja/string-reader:latest
+  newName: shehzadkhuwaja/string-reader:v1
+- name: exercises/greeter-1
+  newName: shehzadkhuwaja/greeter
+  newTag: v1
+- name: exercises/greeter-2
+  newName: shehzadkhuwaja/greeter
+  newTag: v2

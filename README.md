@@ -67,6 +67,7 @@
 -[4.10.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/4.10/1.2)        
 -[5.1.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/5.1/DummySite)        
 -[5.2.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/5.2/istio-Bookinfo-app)        
+-[5.3.](https://github.com/ShehzadKhuwaja/Kubernetes-With-MOOC/tree/5.3/ping-pong-with-log-output)        
 
 
 

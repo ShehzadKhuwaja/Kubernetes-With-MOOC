@@ -26,6 +26,7 @@ spec:
           mountPath: /shared
     - name: log-reader
       image: exercises/string-reader
+      imagePullPolicy: Always
       readinessProbe:
         httpGet:
           path: /ready
